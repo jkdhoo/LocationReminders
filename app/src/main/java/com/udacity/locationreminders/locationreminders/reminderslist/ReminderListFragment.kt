@@ -49,14 +49,6 @@ class ReminderListFragment : BaseFragment(){
         binding.lifecycleOwner = this
         setupRecyclerView()
         binding.addReminderFAB.setOnClickListener { navigateToAddReminder() }
-        _viewModel.authenticationState.observe(viewLifecycleOwner, { authenticationState ->
-            val authenticationActivityIntent = Intent(context, AuthenticationActivity::class.java)
-            when (authenticationState) {
-                AuthenticationViewModel.AuthenticationState.AUTHENTICATED -> Timber.i("Authenticated")
-                else -> startActivity(authenticationActivityIntent)
-            }
-        })
-
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 finishAffinity(requireActivity())

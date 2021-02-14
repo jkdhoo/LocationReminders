@@ -2,18 +2,25 @@ package com.udacity.locationreminders.locationreminders
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.material.snackbar.Snackbar
 import com.udacity.locationreminders.R
+import com.udacity.locationreminders.authentication.AuthenticationActivity
+import com.udacity.locationreminders.authentication.AuthenticationViewModel
+import com.udacity.locationreminders.databinding.ActivityRemindersBinding
+import com.udacity.locationreminders.locationreminders.reminderslist.RemindersListViewModel
 import kotlinx.android.synthetic.main.activity_reminders.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 /**
@@ -27,12 +34,22 @@ class RemindersActivity : AppCompatActivity() {
         private const val REQUEST_BACKGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 33
         private const val TARGET_API = 30
     }
-
+    private val viewModel: RemindersListViewModel by viewModel()
     private val runningQOrLater = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reminders)
+        val binding: ActivityRemindersBinding = DataBindingUtil.setContentView(
+            this,
+            R.layout.activity_reminders
+        )
+        viewModel.authenticationState.observe(this, { authenticationState ->
+            val authenticationActivityIntent = Intent(this, AuthenticationActivity::class.java)
+            when (authenticationState) {
+                AuthenticationViewModel.AuthenticationState.AUTHENTICATED -> Timber.i("Authenticated")
+                else -> startActivity(authenticationActivityIntent)
+            }
+        })
         checkAndRequestForegroundLocation()
     }
 
