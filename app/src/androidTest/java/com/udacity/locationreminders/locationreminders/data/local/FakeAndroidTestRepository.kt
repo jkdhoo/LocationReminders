@@ -21,9 +21,18 @@ import com.udacity.locationreminders.locationreminders.data.dto.Result
 /**
  * Implementation of a remote data source with static access to the data for easy testing.
  */
-class FakeAndroidTestRepository: FakeDataSource() {
+class FakeAndroidTestRepository : FakeDataSource() {
+
+    private var shouldReturnError = false
+
+    fun setReturnError(value: Boolean) {
+        shouldReturnError = value
+    }
 
     override suspend fun getReminders(): Result<List<ReminderDTO>> {
+        if (shouldReturnError) {
+            return Result.Error("Test exception")
+        }
         return super.getReminders()
     }
 
@@ -32,6 +41,9 @@ class FakeAndroidTestRepository: FakeDataSource() {
     }
 
     override suspend fun getReminder(id: String): Result<ReminderDTO> {
+        if (shouldReturnError) {
+            return Result.Error("Test exception")
+        }
         return super.getReminder(id)
     }
 

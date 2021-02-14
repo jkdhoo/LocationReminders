@@ -39,6 +39,7 @@ class RemindersLocalRepositoryTest {
     @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainAndroidTestCoroutineRule()
+
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
@@ -48,7 +49,8 @@ class RemindersLocalRepositoryTest {
             ApplicationProvider.getApplicationContext(),
             RemindersDatabase::class.java
         ).build()
-        remindersRepository = RemindersLocalRepository(database.reminderDao(), Dispatchers.Main
+        remindersRepository = RemindersLocalRepository(
+            database.reminderDao(), Dispatchers.Main
         )
     }
 

@@ -19,12 +19,16 @@ import com.udacity.locationreminders.utils.setup
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class ReminderListFragment : BaseFragment(){
+class ReminderListFragment : BaseFragment() {
 
     override val _viewModel: RemindersListViewModel by viewModel()
     private lateinit var binding: FragmentRemindersBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_reminders, container, false)
         binding.viewModel = _viewModel
@@ -49,11 +53,13 @@ class ReminderListFragment : BaseFragment(){
         binding.lifecycleOwner = this
         setupRecyclerView()
         binding.addReminderFAB.setOnClickListener { navigateToAddReminder() }
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                finishAffinity(requireActivity())
-            }
-        })
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    finishAffinity(requireActivity())
+                }
+            })
     }
 
     override fun onResume() {

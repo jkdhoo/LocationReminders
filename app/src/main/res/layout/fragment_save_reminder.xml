@@ -19,27 +19,27 @@
             android:id="@+id/reminderTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="Title of location"
             android:hint="@string/reminder_title"
+            android:inputType="text"
             android:text="@={viewModel.reminderTitle}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:autofillHints="Title of location"
-            android:inputType="text" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/reminderDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="Description of location"
             android:gravity="start"
             android:hint="@string/reminder_desc"
+            android:inputType="text"
             android:lines="10"
             android:text="@={viewModel.reminderDescription}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/reminderTitle"
-            android:autofillHints="Description of location"
-            android:inputType="text" />
+            app:layout_constraintTop_toBottomOf="@id/reminderTitle" />
 
         <TextView
             android:id="@+id/selectLocation"
@@ -51,10 +51,10 @@
             android:gravity="center_vertical"
             android:text="@string/reminder_location"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/reminderDescription"
+            app:drawableLeftCompat="@drawable/ic_location"
             app:drawableStartCompat="@drawable/ic_location"
-            app:drawableLeftCompat="@drawable/ic_location" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reminderDescription" />
 
         <TextView
             android:id="@+id/selectedLocation"

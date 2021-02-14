@@ -34,8 +34,13 @@ class SelectLocationFragment : BaseFragment(), GoogleMap.OnMyLocationButtonClick
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     @SuppressLint("MissingPermission")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_select_location, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_select_location, container, false)
 
         binding.viewModel = _viewModel
         binding.lifecycleOwner = this
@@ -46,7 +51,8 @@ class SelectLocationFragment : BaseFragment(), GoogleMap.OnMyLocationButtonClick
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity())
+        fusedLocationClient =
+            LocationServices.getFusedLocationProviderClient(this.requireActivity())
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
                 _viewModel.setCurrentLocation(location)
@@ -132,18 +138,18 @@ class SelectLocationFragment : BaseFragment(), GoogleMap.OnMyLocationButtonClick
 
     private fun setMapStyle(map: GoogleMap) {
         try {
-            val success = map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this.context, R.raw.map_style))
+            val success =
+                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this.context, R.raw.map_style))
             if (!success) {
                 Timber.e("Style parsing failed.")
             }
-        }
-        catch (e: Resources.NotFoundException) {
+        } catch (e: Resources.NotFoundException) {
             Timber.e("Can't find style. Error: $e")
         }
     }
 
     override fun onMyLocationClick(location: Location) {
-        Toast.makeText(this.requireContext(), "Current location:\n$location", Toast.LENGTH_LONG)
+        Toast.makeText(this.requireContext(), "You are here!", Toast.LENGTH_LONG)
             .show()
     }
 

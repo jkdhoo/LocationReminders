@@ -41,7 +41,8 @@ class SaveReminderViewModelTest {
     @Before
     fun initTests() {
         reminderDataSource = FakeDataSource()
-        saveReminderViewModel = SaveReminderViewModel(ApplicationProvider.getApplicationContext(), reminderDataSource)
+        saveReminderViewModel =
+            SaveReminderViewModel(ApplicationProvider.getApplicationContext(), reminderDataSource)
     }
 
     @After
@@ -52,35 +53,36 @@ class SaveReminderViewModelTest {
 
     @Test
     fun saveReminder_getReminder() = runBlockingTest {
-        val reminder = ReminderDataItem("Title","Description","Location",0.0, 0.0, "ID")
+        val reminder = ReminderDataItem("Title", "Description", "Location", 0.0, 0.0, "ID")
         saveReminderViewModel.validateAndSaveReminder(reminder)
         assertThat(reminderDataSource.getReminder("ID"), notNullValue())
     }
 
     @Test
     fun saveBadReminder_getNoReminder() = runBlockingTest {
-        val reminder = ReminderDataItem(null,"Description","Location",0.0, 0.0, "ID")
+        val reminder = ReminderDataItem(null, "Description", "Location", 0.0, 0.0, "ID")
         saveReminderViewModel.validateAndSaveReminder(reminder)
         assertThat(reminderDataSource.getReminder("ID"), `is`(Result.Error("Reminder not found")))
     }
 
     @Test
-    fun saveReminderSuccess_loading() {
+    fun saveReminderSuccess_loadingAndToast() {
         // Pause dispatcher so we can verify initial values
         mainCoroutineRule.pauseDispatcher()
 
         // Load the task in the viewmodel
-        val reminder = ReminderDataItem("Title","Description","Location",0.0, 0.0, "ID")
+        val reminder = ReminderDataItem("Title", "Description", "Location", 0.0, 0.0, "ID")
         saveReminderViewModel.validateAndSaveReminder(reminder)
 
         // Then progress indicator is shown
         assertThat(saveReminderViewModel.showLoading.getOrAwaitValue(), `is`(true))
-
+        assertThat(saveReminderViewModel.showToast.getOrAwaitValue(), `is`(""))
         // Execute pending coroutines actions
         mainCoroutineRule.resumeDispatcher()
 
         // Then progress indicator is hidden
         assertThat(saveReminderViewModel.showLoading.getOrAwaitValue(), `is`(false))
+        assertThat(saveReminderViewModel.showToast.getOrAwaitValue(), `is`("Reminder Saved!"))
     }
 
     @Test
@@ -88,7 +90,7 @@ class SaveReminderViewModelTest {
 
         assertThat(saveReminderViewModel.snackbarString.getOrAwaitValue(), `is`(-1))
 
-        val reminder = ReminderDataItem(null,"Description","Location",0.0, 0.0, "ID")
+        val reminder = ReminderDataItem(null, "Description", "Location", 0.0, 0.0, "ID")
         saveReminderViewModel.validateAndSaveReminder(reminder)
         val reminders = reminderDataSource.getReminders() as Result.Success
 

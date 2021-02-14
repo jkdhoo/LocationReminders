@@ -34,6 +34,7 @@ class RemindersActivity : AppCompatActivity() {
         private const val REQUEST_BACKGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 33
         private const val TARGET_API = 30
     }
+
     private val viewModel: RemindersListViewModel by viewModel()
     private val runningQOrLater = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 
@@ -124,7 +125,11 @@ class RemindersActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             REQUEST_BACKGROUND_ONLY_PERMISSIONS_REQUEST_CODE -> {
                 if (grantResults[0] != 1) {

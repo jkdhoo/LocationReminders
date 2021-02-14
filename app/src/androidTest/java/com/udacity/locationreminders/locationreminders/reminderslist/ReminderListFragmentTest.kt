@@ -11,15 +11,17 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.udacity.locationreminders.R
 import com.udacity.locationreminders.locationreminders.data.dto.ReminderDTO
+import com.udacity.locationreminders.locationreminders.data.dto.Result
 import com.udacity.locationreminders.locationreminders.data.local.FakeAndroidTestRepository
-import com.udacity.locationreminders.locationreminders.savereminder.SaveReminderFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import org.hamcrest.core.IsEqual
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.hamcrest.MatcherAssert.assertThat as assertThatHam
 
 @RunWith(AndroidJUnit4::class)
 @ExperimentalCoroutinesApi
@@ -39,6 +41,7 @@ class ReminderListFragmentTest {
     @After
     fun cleanupDb() = runBlockingTest {
         repository.deleteAllReminders()
+        repository.setReturnError(false)
     }
 
     @Test
@@ -57,5 +60,12 @@ class ReminderListFragmentTest {
         Mockito.verify(navController).navigate(
             ReminderListFragmentDirections.toSaveReminder()
         )
+    }
+
+    @Test
+    fun getAllReminders_triggerError() = runBlockingTest {
+        repository.setReturnError(true)
+        val reminders = repository.getReminders() as Result.Error
+        assertThatHam(reminders, IsEqual(Result.Error("Test exception")))
     }
 }

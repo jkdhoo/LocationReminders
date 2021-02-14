@@ -13,7 +13,8 @@ import com.udacity.locationreminders.locationreminders.data.dto.ReminderDTO
 import com.udacity.locationreminders.locationreminders.data.dto.Result
 import kotlinx.coroutines.launch
 
-class RemindersListViewModel(app: Application, private val dataSource: ReminderDataSource) : BaseViewModel(app) {
+class RemindersListViewModel(app: Application, private val dataSource: ReminderDataSource) :
+    BaseViewModel(app) {
 
     val authenticationState = FirebaseUserLiveData().map { user ->
         if (user != null) {
@@ -35,6 +36,7 @@ class RemindersListViewModel(app: Application, private val dataSource: ReminderD
         }
         loadReminders()
     }
+
     /**
      * Get all the reminders from the DataSource and add them to the remindersList to be shown on the UI,
      * or show error if any

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -23,7 +22,7 @@
             android:layout_margin="20dp"
             android:text="@string/login_prompt"
             android:textAlignment="center"
-            android:textSize="30sp"/>
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/auth_button"
@@ -34,7 +33,7 @@
             android:padding="10dp"
             android:text="@string/login_btn"
             android:textColor="@color/white"
-            android:textSize="26sp"/>
+            android:textSize="26sp" />
     </FrameLayout>
 
 </layout>

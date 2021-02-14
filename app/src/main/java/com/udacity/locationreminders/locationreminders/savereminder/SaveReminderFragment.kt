@@ -68,7 +68,15 @@ class SaveReminderFragment : BaseFragment() {
             val location = _viewModel.reminderSelectedLocationStr.value
             val latitude = _viewModel.poiLatitude.value
             val longitude = _viewModel.poiLongitude.value
-            _viewModel.validateAndSaveReminder(ReminderDataItem(title, description, location, latitude, longitude))
+            _viewModel.validateAndSaveReminder(
+                ReminderDataItem(
+                    title,
+                    description,
+                    location,
+                    latitude,
+                    longitude
+                )
+            )
             Timber.i("Save Clicked")
         }
         _viewModel.geofenceRequest.observe(viewLifecycleOwner, { geofenceRequest ->
@@ -78,7 +86,12 @@ class SaveReminderFragment : BaseFragment() {
                     intent.action = ACTION_GEOFENCE_EVENT
                     // Use FLAG_UPDATE_CURRENT so that you get the same pending intent back when calling
                     // addGeofences() and removeGeofences().
-                    PendingIntent.getBroadcast(this.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    PendingIntent.getBroadcast(
+                        this.context,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                    )
                 }
                 _viewModel.addGeofence(geofencePendingIntent, geofencingClient, geofenceRequest)
             }

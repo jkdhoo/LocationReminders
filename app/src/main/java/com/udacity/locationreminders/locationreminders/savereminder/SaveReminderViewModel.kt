@@ -34,6 +34,9 @@ class SaveReminderViewModel(val app: Application, private val dataSource: Remind
     val snackbarString: LiveData<Int>
         get() = showSnackBarInt
 
+    val toastString: LiveData<String>
+        get() = showToast
+
     private val _poiLatitude = MutableLiveData<Double>()
     val poiLatitude: LiveData<Double>
         get() = _poiLatitude
@@ -56,6 +59,7 @@ class SaveReminderViewModel(val app: Application, private val dataSource: Remind
 
     init {
         showSnackBarInt.value = -1
+        showToast.value = ""
     }
 
     fun setCurrentLocation(location: Location) {
@@ -148,7 +152,11 @@ class SaveReminderViewModel(val app: Application, private val dataSource: Remind
     }
 
     @SuppressLint("MissingPermission")
-    fun addGeofence(geofencePendingIntent: PendingIntent, geofencingClient: GeofencingClient, geofenceRequest: GeofencingRequest) {
+    fun addGeofence(
+        geofencePendingIntent: PendingIntent,
+        geofencingClient: GeofencingClient,
+        geofenceRequest: GeofencingRequest
+    ) {
         geofencingClient.addGeofences(geofenceRequest, geofencePendingIntent).run {
             addOnSuccessListener {
                 Timber.i("Geofence Added")
